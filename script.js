@@ -90,22 +90,11 @@ function loadDataCreateKb(dataPath, containerId, countingFunction, colorScale, c
 
 }
 
-// d3.csv(dataPath).then((data) => {
-//   console.log("CSV data:", data); 
-// }).catch((error) => {
-//   console.error("Error loading CSV:", error); 
-// });
-
-
-loadDataCreateKb("assets/passwords.csv", 'kbOne', countAllOccurrences, colorScalePwAll, true);
-loadDataCreateKb("assets/passwords.csv", 'kbTwo', countFirstChar, colorScalePwFirst, false);
-
-loadDataCreateKb("assets/passwords.csv", 'password-blur', countAllOccurrences, colorScaleFinal, false, false);
+loadDataCreateKb("assets/passwords.csv", 'kbPasswords', countAllOccurrences, colorScaleFinal, false, false);
 
 loadDataCreateKb("assets/baby-names-1880.csv", 'kbBaby1880', countAllOccurrences, colorScaleFinal, false, false);
 
 loadDataCreateKb("assets/baby-names-1980.csv", 'kbBaby1980', countAllOccurrences, colorScaleFinal, false, false);
-
 
 loadDataCreateKb("assets/baby-names-2015.csv", 'kbBaby2015', countAllOccurrences, colorScaleFinal, false, false);
 
@@ -125,11 +114,6 @@ loadDataCreateKb("assets/celebs.csv", 'kbCelebs', countAllOccurrences, colorScal
 
 loadDataCreateKb("assets/charities.csv", 'kbCharities', countAllOccurrences, colorScaleFinal, false, false);
 
-
-
-//heatmap
-// const dataPath = "assets/brooklyn.csv";
-// createHeatmapFromData(dataPath, "heatmap-container");
 
 
 const kbLayout = [
@@ -217,7 +201,6 @@ function createKeyboard(containerId, charCounts, colorScale, considerUppercase, 
         keyDiv.style.backgroundColor = "transparent";
         keyDiv.style.borderRadius = "50%";
         kbContainer.style.gap = "0px";
-        kbContainer.style.marginTop = "140px";
         rowDiv.style.gap = "0px";
 
       }
@@ -578,193 +561,5 @@ function displayUserResult(similarityPercentage, charCounts) {
   resultContainer.style.display = "block";
 
 }
-
-//#endregion
-
-// #region HEATMAP 00 - NO GRADIENTS
-// function createHeatmap(containerId, charCounts) {
-//   const container = document.getElementById(containerId);
-
-//   if (!container) {
-//     console.error(`Container with ID '${containerId}' does not exist`);
-//     return;
-//   }
-
-//   container.innerHTML = "";
-
-//   const svg = d3.select(container).append("svg")
-//     .attr("width", 600)
-//     .attr("height", 200);
-
-//   return svg;
-
-// }
-
-// function createHeatmapGradient(svg, charCounts) {
-//   const colorScale = d3.scaleSequential(d3.interpolateInferno) 
-//     .domain([0, getMaxOccurrence(charCounts)]); 
-
-//   const keyWidth = 50; 
-//   const keyHeight = 50; 
-//   const margin = 10; 
-
-//   const layout = [
-//     ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-//     ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
-//     ["z", "x", "c", "v", "b", "n", "m"]
-//   ];
-
-//   layout.forEach((row, rowIndex) => {
-//     row.forEach((char, colIndex) => {
-//       const x = colIndex * (keyWidth + margin); // Horizontal position
-//       const y = rowIndex * (keyHeight + margin); // Vertical position
-
-//       const occurrence = charCounts[char.toLowerCase()] || 0;
-//       const color = colorScale(occurrence);
-
-//       svg.append("rect") // Add rectangles for heatmap
-//         .attr("x", x + margin) // Centered with margin
-//         .attr("y", y + margin) // Centered with margin
-//         .attr("width", keyWidth)
-//         .attr("height", keyHeight)
-//         .attr("fill", color); // Use the smooth gradient color
-//     });
-//   });
-// }
-// #endregion
-
-// #region HEATMAP 01 - BASED ON D3-CONTOUR PLUGIN
-
-function loadDataForHeatmap(dataPath, callback) {
-  d3.csv(dataPath).then(data => {
-    const charCounts = {};
-
-    data.forEach(row => {
-      const word = row.string ? row.string.toLowerCase() : ""; // Handle undefined strings
-      if (word) {
-        for (const char of word) {
-          if (char.trim()) { // Ignore spaces or empty chars
-            charCounts[char] = (charCounts[char] || 0) + 1;
-          }
-        }
-      }
-    });
-
-    console.log("Character counts for heatmap:", JSON.stringify(charCounts, null, 2));
-
-    if (callback) {
-      callback(charCounts);
-    }
-  });
-}
-
-
-function createHeatmapFromData(dataPath, containerId) {
-  loadDataForHeatmap(dataPath, charCounts => {
-
-
-    const svg = createDensityHeatmap(containerId, charCounts);
-
-    const layout = [
-      [{ char1: 'q' }, { char1: 'w' }, { char1: 'e' }, { char1: 'r' }, { char1: 't' }, { char1: 'y' }, { char1: 'u' }, { char1: 'i' }, { char1: 'o' }, { char1: 'p' }],
-      [{ char1: 'a' }, { char1: 's' }, { char1: 'd' }, { char1: 'f' }, { char1: 'g' }, { char1: 'h' }, { char1: 'j' }, { char1: 'k' }, { char1: 'l' }],
-      [{ char1: 'z' }, { char1: 'x' }, { char1: 'c' }, { char1: 'v' }, { char1: 'b' }, { char1: 'n' }, { char1: 'm' }]
-    ];
-
-    const { densityData, colorScale } = generateDensityData(charCounts, layout); // Generate density data
-    if (!densityData) {
-      console.error("Density data is undefined");
-    }
-    displayDensityHeatmap(svg, densityData, colorScale); // Display the heatmap with the processed data
-  });
-}
-
-
-
-function createDensityHeatmap(containerId, charCounts) {
-  const container = document.getElementById(containerId);
-
-  if (!container) {
-    console.error(`Container with ID '${containerId}' does not exist.`);
-    return;
-  }
-
-  container.innerHTML = "";
-  const svgWidth = 600;
-  const svgHeight = 200;
-
-  const svg = d3.select(container).append("svg")
-    .attr("width", svgWidth)
-    .attr("height", svgHeight)
-    .append("g")
-    .attr("transform", `translate(${10}, ${10})`); // Adjust margin and alignment
-
-  return svg;
-}
-
-function generateDensityData(charCounts, layout) {
-  const width = 600;
-  const height = 200;
-
-  const x = d3.scaleLinear().domain([0, layout[0].length]).range([0, width]);
-  const y = d3.scaleLinear().domain([0, layout.length]).range([height, 0]);
-
-  // const colorScale = d3.scaleLinear().domain([0, getMaxOccurrence(charCounts)]).range(["red", "#69b3a2"]); 
-
-  const colorScale = d3.scaleSequential(d3.interpolateOrRd)
-    .domain([0, getMaxOccurrence(charCounts)]);
-
-  /*
-  const sqrtScalePwAll = d3.scaleSqrt()
-  .domain([1, 100]) //max domain is calculated and changed later!
-  .range([1, 30]);
-
-const colorScalePwAll = d3.scaleSequential(d3.interpolateOrRd)
-  .domain([1, 100]);
-  */
-
-  const densityData = d3.contourDensity()
-    .x((d) => x(d.x))
-    .y((d) => y(d.y))
-    .size([width, height])
-    .bandwidth(20);
-
-  const points = [];
-  layout.forEach((row, rowIndex) => {
-    row.forEach((key, colIndex) => {
-      if (!key || !key.char1) {
-        console.error(`Key or char1 is undefined in row ${rowIndex}, column ${colIndex}`);
-        return; // Skip if key or char1 is undefined
-      }
-
-      const char = key.char1.toLowerCase();
-      const occurrence = charCounts[char] || 0;
-
-      for (let i = 0; i < occurrence; i++) {
-        points.push({ x: colIndex, y: rowIndex }); // Add points based on key positions
-      }
-    });
-  });
-
-  return { densityData: densityData(points), colorScale };
-}
-
-
-function displayDensityHeatmap(svg, densityData, colorScale) {
-  svg.insert("g", "g")
-    .selectAll("path")
-    .data(densityData)
-    .enter().append("path")
-    .attr("d", d3.geoPath())
-    .attr("fill", (d) => colorScale(d.value));
-}
-
-function createKeyboardHeatmap(containerId, charCounts) {
-  const svg = createDensityHeatmap(containerId, charCounts);
-
-  const { densityData, colorScale } = generateDensityData(charCounts, layout);
-  displayDensityHeatmap(svg, densityData, colorScale);
-}
-
 
 //#endregion

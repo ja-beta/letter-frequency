@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>D3-05</title>
+    <title>LETTER FRQUENCY</title>
     <link href="style.css" rel="stylesheet" />
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://d3js.org/d3-contour.v1.min.js"></script>
@@ -15,18 +15,95 @@
 <body>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <div id="wrapper">
+        <div id="fixed-menu">
+            <div id="menu">
+                <div id="menu-logo">
+                    <h1 id="menu-headline">Letter Frequency</h1>
+                </div>
+                <div id="menu-links">
+                    <div class="menu-item">
+                        <div class="menu-num">
+                            <p class="num">1</p>
+                        </div>
+                        <a href="#kbBaby1880">Names given at birth, 1880</a>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-num">
+                            <p class="num">2</p>
+                        </div>
+                        <a href="#kbBaby1980">Names given at birth, 1980</a>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-num">
+                            <p class="num">3</p>
+                        </div>
+                        <a href="#kbBaby2015">Names given at birth, 2015</a>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-num">
+                            <p class="num">4</p>
+                        </div>
+                        <a href="#kbPresidents">U.S. Presidents</a>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-num">
+                            <p class="num">5</p>
+                        </div>
+                        <a href="#kbNobel">Nobel Prize Winners</a>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-num">
+                            <p class="num">6</p>
+                        </div>
+                        <a href="#kbCelebs">Most popular celebrities</a>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-num">
+                            <p class="num">7</p>
+                        </div>
+                        <a href="#kbCompanies">Largest market cap companies</a>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-num">
+                            <p class="num">8</p>
+                        </div>
+                        <a href="#kbCharities">Biggest non-profit organizations</a>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-num">
+                            <p class="num">9</p>
+                        </div>
+                        <a href="#kbNasdaq">NASDAQ Acronyms</a>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-num">
+                            <p class="num">10</p>
+                        </div>
+                        <a href="#kbPasswords">Compromised passwords</a>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-num">
+                            <p class="num">11</p>
+                        </div>
+                        <a href="#kbEngF">The English language</a>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-num">
+                            <p class="num">12</p>
+                        </div>
+                        <a href="#kbWebsites">Most visited websites, 2024</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="main">
-            <h1 class="headline">characters by occurrence in compromised passwords</h1>
-            <div id="kbOne"></div>
-            <h1 class="headline">characters by first letter occurrence in compromised passwords</h1>
-            <div id="kbTwo"></div>
-            <h1 class="big-headline">Test yourself</h1>
+            <!-- <div id="test-container">
+                            <h1 class="big-headline">Test yourself</h1>
             <h1 class="headline">Input your own text</h1>
             <form id="form-test">
                 <textarea id="input-text" name="message" rows="10" cols="30"></textarea>
                 <input type="submit" id="submit-button">
             </form>
-            <div id="test-container">
                 <div id="kbEnglishTest"></div>
                 <h1 class="headline">Characters by occurrence in the English language</h1>
                 <div id="kbEnglish"></div>
@@ -34,34 +111,94 @@
                     <p class="test-result-p"> Your writing is </p>
                     <p id="result-number">93%</p>
                     <p class="test-result-p"> similar to the letter frequency in the English language </p>
-                    <div id="kb-heat-map"></div>
                 </div>
-                <div id="heatmap-container"></div>
-                <h1 class="headline">Characters by occurrence in the leaked passwords — heatmap</h1>
-                <div id="password-blur"></div>
-                <h1 class="headline">Characters by occurrence in baby names, 1880 — heatmap</h1>
-                <div id="kbBaby1880"></div>
-                <h1 class="headline">Characters by occurrence in baby names, 1980 — heatmap</h1>
-                <div id="kbBaby1980"></div>
-                <h1 class="headline">Characters by occurrence in baby names, 2015 — heatmap</h1>
-                <div id="kbBaby2015"></div>
-                <h1 class="headline">Characters by occurrence in major company names — heatmap</h1>
-                <div id="kbCompanies"></div>
-                <h1 class="headline">Characters by occurrence in the English Language — heatmap</h1>
-                <div id="kbEngF"></div>
-                <h1 class="headline">Characters by occurrence in Nasdaq</h1>
-                <div id="kbNasdaq"></div>
-                <h1 class="headline">Characters by occurrence in U.S. presidents</h1>
-                <div id="kbPresidents"></div>
-                <h1 class="headline">Characters by occurrence in Nobel Prize winners</h1>
-                <div id="kbNobel"></div>
-                <h1 class="headline">Characters by occurrence in top trending websites</h1>
-                <div id="kbWebsites"></div>
-                <h1 class="headline">Characters by occurrence in top celebrities</h1>
-                <div id="kbCelebs"></div>
-                <h1 class="headline">Characters by occurrence in top non-profit organizations</h1>
-                <div id="kbCharities"></div>
+            </div> -->
+            <h1 id="graph-headline">Alphabet occurrence in english</h1>
+            <img id="graph" src="images/graph.png" alt="graph">
+
+
+            <div id="kbBaby1880"></div>
+            <div class="kb-text-container">
+                <h2 class="headline">Names given at birth, 1880</h2>
+                <p class="kb-p"> Social Security Administration | 549 entries</p>
             </div>
+
+
+            <div id="kbBaby1980"></div>
+            <div class="kb-text-container">
+                <h2 class="headline">Names given at birth, 1980</h2>
+                <p class="kb-p"> Social Security Administration | 2,184 entries</p>
+            </div>
+
+
+            <div id="kbBaby2015"></div>
+            <div class="kb-text-container">
+                <h2 class="headline">Names given at birth, 2015</h2>
+                <p class="kb-p"> Social Security Administration | 3,590 entries</p>
+            </div>
+
+            
+            <div id="kbPresidents"></div>
+            <div class="kb-text-container">
+                <h2 class="headline">U.S. presidents</h2>
+                <p class="kb-p">The White House | 46 entries</p>
+            </div>
+
+
+            <div id="kbNobel"></div>
+            <div class="kb-text-container">
+            <h2 class="headline">Nobel Prize winners</h2>
+            <p class="kb-p">Kaggle.com | 925 entries</p>
+            </div>
+
+            <div id="kbCelebs"></div>
+            <div class="kb-text-container">
+                <h2 class="headline">Most popular celebrities</h2>
+                <p class="kb-p">IMDB | 100 entries</p>
+            </div>
+
+
+            <div id="kbCompanies"></div>
+            <div class="kb-text-container">
+                <h2 class="headline">Largest market cap companies</h2>
+                <p class="kb-p">manually collected data | 169 entries</p>
+            </div>
+
+
+            <div id="kbCharities"></div>
+            <div class="kb-text-container">
+            <h2 class="headline">Characters by occurrence in top non-profit organizations</h2>
+            <p class="kb-p">Forbes | 200 entries</p>
+            </div>
+
+
+            <div id="kbNasdaq"></div>
+            <div class="kb-text-container">
+            <h2 class="headline">NASDAQ Acronyms</h2>
+            <p class="kb-p">Stockanalysis.com | 1,000 entries</p>
+            </div>
+
+            <div id="kbPasswords"></div>
+            <div class="kb-text-container">
+                <h2 class="headline">compromised passwords</h2>
+                <p class="kb-p">Daniel Miessler’s SecLists repository on GitHub | 
+                    100,000 entries</p>
+            </div>
+
+
+            <div id="kbEngF"></div>
+            <div class="kb-text-container">
+            <h2 class="headline">the English Language</h2>
+            <p class="kb-p">Letter frequency, Wikipedia</p>
+            </div>
+
+
+            <div id="kbWebsites"></div>
+            <div class="kb-text-container">
+                <h2 class="headline">Most visited websites in the world, 2024</h2>
+                <p class="kb-p">SimilarWeb | 50 entries</p>
+            </div>
+
         </div>
     </div>
     <script src="script.js"></script>
